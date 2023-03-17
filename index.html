@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Pixel Game with Phaser</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+        let character;
+        let boxes;
+        let cursors;
+
+        function preload() {
+            this.load.image('character', 'character.png');
+            this.load.image('box', 'box.png');
+        }
+
+        function create() {
+            character = this.physics.add.sprite(config.width / 2, config.height - 50, 'character');
+            character.setCollideWorldBounds(true);
+
+            boxes = this.physics.add.group();
+
+            cursors = this.input.keyboard.createCursorKeys();
+            this.input.keyboard.on('keydown-SPACE', placeBox, this);
+        }
+
+        function update() {
+            if (cursors.left.isDown) {
+                character.setVelocityX(-200);
+            } else if (cursors.right.isDown) {
+                character.setVelocityX(200);
+            } else {
+                character.setVelocityX(0);
+            }
+        }
+
+        function placeBox() {
+            const box = boxes.create(character.x, character.y - 32, 'box');
+        }
+    </script>
+</body>
+</html>
