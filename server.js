@@ -25,9 +25,11 @@ io.on('connection', (socket) => {
     y: Math.random() * 600,
   };
 
-  socket.emit('currentPlayers', players);
+  socket.on('clientReady', () => {
+    socket.emit('currentPlayers', players);
+  });
 
-  socket.broadcast.emit('newPlayer', players[socket.id]);
+  io.emit('newPlayer', players[socket.id]);
 
   socket.on('playerMovement', (movementData) => {
     players[socket.id].x = movementData.x;
@@ -35,9 +37,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('playerMoved', players[socket.id]);
   });
 
+  socket.on('boxCreated', (boxInfo) => {
+    // Broadcast the new box's position to all connected clients
+    socket.broadcast.emit('boxCreated', boxInfo);
+  });
+
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id);
     delete players[socket.id];
-    io.emit('disconnect', socket.id);
+    io.emit('playerDisconnected', socket.id);
   });
 });
