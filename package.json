@@ -1,0 +1,26 @@
+{
+  "name": "chatgpt4-game-prototype",
+  "version": "1.0.0",
+  "description": "Will it work?",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heitortsergent/chatgpt4-game-prototype.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heitortsergent/chatgpt4-game-prototype/issues"
+  },
+  "homepage": "https://github.com/heitortsergent/chatgpt4-game-prototype#readme",
+  "devDependencies": {
+    "express": "^4.18.2",
+    "phaser": "^3.55.2",
+    "socket.io": "^4.6.1"
+  }
+}
