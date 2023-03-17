@@ -19,7 +19,7 @@
             type: Phaser.AUTO,
             width: 800,
             height: 600,
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#8cac0e',
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -37,6 +37,7 @@
         let character;
         let boxes;
         let cursors;
+        let floor;
 
         function preload() {
             this.load.image('character', 'assets/character.png');
@@ -48,9 +49,15 @@
             character.setCollideWorldBounds(true);
 
             boxes = this.physics.add.group();
-
+          
             cursors = this.input.keyboard.createCursorKeys();
             this.input.keyboard.on('keydown-SPACE', placeBox, this);
+
+          // Add this code to create the floor
+            floor = this.physics.add.staticGroup();
+            const floorRect = this.add.rectangle(config.width / 2, config.height - 25, config.width, 5, 0x000000);
+            floor.add(floorRect);
+            this.physics.add.collider(character, floor);
         }
 
         function update() {
@@ -60,6 +67,14 @@
                 character.setVelocityX(200);
             } else {
                 character.setVelocityX(0);
+            }
+
+            if (cursors.up.isDown) {
+                character.setVelocityY(-200);
+            } else if (cursors.down.isDown) {
+                character.setVelocityY(200);
+            } else {
+                character.setVelocityY(0);
             }
         }
 
