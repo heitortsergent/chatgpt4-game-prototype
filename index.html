@@ -19,6 +19,7 @@
             type: Phaser.AUTO,
             width: 800,
             height: 600,
+            backgroundColor: '#f0f0f0',
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -38,8 +39,8 @@
         let cursors;
 
         function preload() {
-            this.load.image('character', 'character.png');
-            this.load.image('box', 'box.png');
+            this.load.image('character', 'assets/character.png');
+            this.load.image('box', 'assets/box.png');
         }
 
         function create() {
