@@ -31,22 +31,24 @@ function preload() {
 }
 
 function create() {
+  console.log('client create function');
   player = this.physics.add.sprite(config.width / 2, config.height - 50, 'player');
-
   otherPlayers = this.add.group();
   cursors = this.input.keyboard.createCursorKeys();
 
   socket.on('currentPlayers', (players) => {
+    console.log('socket on currentPlayers');
     Object.keys(players).forEach((id) => {
-      if (id !== socket.id) {
-        const otherPlayer = this.add.sprite(players[id].x, players[id].y, 'player');
-        otherPlayer.playerId = id;
-        otherPlayers.add(otherPlayer);
-      }
+        if (id !== socket.id) {
+            const otherPlayer = this.add.sprite(players[id].x, players[id].y, 'player');
+            otherPlayer.playerId = id;
+            otherPlayers.add(otherPlayer);
+        }
     });
   });
 
   socket.on('newPlayer', (playerInfo) => {
+    console.log('socket on newPlayer');
     const otherPlayer = this.add.sprite(playerInfo.x, playerInfo.y, 'player');
     otherPlayer.playerId = playerInfo.playerId;
     otherPlayers.add(otherPlayer);
@@ -60,12 +62,16 @@ function create() {
     });
   });
 
-  socket.on('disconnect', (playerId) => {
+  socket.on('playerDisconnected', (playerId) => {
     otherPlayers.getChildren().forEach((otherPlayer) => {
       if (playerId === otherPlayer.playerId) {
         otherPlayer.destroy();
       }
     });
+  });
+
+  socket.on('boxCreated', (boxInfo) => {
+    boxes.create(boxInfo.x, boxInfo.y, 'box');
   });
 
   player.setCollideWorldBounds(true);
@@ -80,6 +86,8 @@ function create() {
   const floorRect = this.add.rectangle(config.width / 2, config.height - 25, config.width, 5, 0x000000);
   floor.add(floorRect);
   this.physics.add.collider(player, floor);
+
+  socket.emit('clientReady');
 }
 
 function update() {
@@ -116,4 +124,5 @@ function update() {
 
 function placeBox() {
   const box = boxes.create(player.x, player.y - 32, 'box');
+  socket.emit('boxCreated', { x: box.x, y: box.y });
 }
