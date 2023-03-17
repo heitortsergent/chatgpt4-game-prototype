@@ -15,6 +15,7 @@ server.listen(8080, () => {
 });
 
 const players = {};
+const boxes = [];
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
@@ -27,6 +28,8 @@ io.on('connection', (socket) => {
 
   socket.on('clientReady', () => {
     socket.emit('currentPlayers', players);
+
+    socket.emit('currentBoxes', boxes);
   });
 
   io.emit('newPlayer', players[socket.id]);
@@ -38,6 +41,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('boxCreated', (boxInfo) => {
+    boxes.push({boxInfo});
+
     // Broadcast the new box's position to all connected clients
     socket.broadcast.emit('boxCreated', boxInfo);
   });

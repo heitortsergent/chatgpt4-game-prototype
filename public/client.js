@@ -37,13 +37,19 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   socket.on('currentPlayers', (players) => {
-    console.log('socket on currentPlayers');
     Object.keys(players).forEach((id) => {
         if (id !== socket.id) {
             const otherPlayer = this.add.sprite(players[id].x, players[id].y, 'player');
             otherPlayer.playerId = id;
             otherPlayers.add(otherPlayer);
         }
+    });
+  });
+
+  socket.on('currentBoxes', (newBoxes) => {
+    newBoxes.forEach((box) => {
+      console.log(box);
+      boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
     });
   });
 
