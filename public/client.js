@@ -1,3 +1,4 @@
+const roomSelector = document.getElementById('roomSelector');
 const roomInput = document.getElementById('roomInput');
 const createRoomBtn = document.getElementById('createRoomBtn');
 const gameContainer = document.getElementById('gameContainer');
@@ -11,8 +12,7 @@ createRoomBtn.addEventListener('click', () => {
 
 function createRoom(roomName) {
   gameContainer.style.display = 'block';
-  roomInput.style.display = 'none';
-  createRoomBtn.style.display = 'none';
+  roomSelector.style.display = 'none';
 
   // Connect to the server and join the room
   const socket = io();

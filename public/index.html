@@ -5,18 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phaser Multiplayer Example</title>
-    <style>
-        body {
-            margin: 0;
-        }
-        #gameContainer {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <input type="text" id="roomInput" placeholder="Enter room name" />
-    <button id="createRoomBtn">Create Room</button>
+    <div id="roomSelector" class="container">
+        <h1>Join a room</h1>
+        <input type="text" id="roomInput" placeholder="Enter room name" />
+        <button id="createRoomBtn">Join Room</button>
+    </div>
     <div id="gameContainer">
         <script src="/socket.io/socket.io.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
