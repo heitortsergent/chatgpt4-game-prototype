@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="roomSelector" class="container">
-        <h1>Join a room</h1>
-        <input type="text" id="roomInput" placeholder="Enter room name" />
-        <button id="createRoomBtn">Join Room</button>
+    <div id="roomSelector" class="parent-container">
+        <img src="assets/character-box-white.png" alt="a pixel art rock with eyes" class="rock" />
+
+        <div class="container">
+            <h1>Join a room</h1>
+            <input type="text" id="roomInput" placeholder="Enter room name" />
+            <button id="createRoomBtn">Join Room</button>
+        </div>
     </div>
     <div id="gameContainer">
         <script src="/socket.io/socket.io.js"></script>
