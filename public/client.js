@@ -67,7 +67,6 @@ function createRoom(roomName) {
   
     socket.on('currentBoxes', (newBoxes) => {
       newBoxes.forEach((box) => {
-        // boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
         let newBox = boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
         newBox.setTintFill(box.boxInfo.boxColor);
       });
@@ -97,7 +96,6 @@ function createRoom(roomName) {
     });
   
     socket.on('boxCreated', (boxInfo) => {
-      // boxes.create(boxInfo.x, boxInfo.y, 'box');
       let box = boxes.create(boxInfo.x, boxInfo.y, 'box');
       box.setTintFill(boxInfo.boxColor);
     });
