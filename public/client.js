@@ -42,6 +42,7 @@ function createRoom(roomName) {
   let boxes;
   let cursors;
   let floor;
+  let boxColor;
   
   function preload() {
     this.load.image('player', 'assets/character.png');
@@ -66,7 +67,9 @@ function createRoom(roomName) {
   
     socket.on('currentBoxes', (newBoxes) => {
       newBoxes.forEach((box) => {
-        boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
+        // boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
+        let newBox = boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
+        newBox.setTintFill(box.boxInfo.boxColor);
       });
     });
   
@@ -94,7 +97,9 @@ function createRoom(roomName) {
     });
   
     socket.on('boxCreated', (boxInfo) => {
-      boxes.create(boxInfo.x, boxInfo.y, 'box');
+      // boxes.create(boxInfo.x, boxInfo.y, 'box');
+      let box = boxes.create(boxInfo.x, boxInfo.y, 'box');
+      box.setTintFill(boxInfo.boxColor);
     });
   
     player.setCollideWorldBounds(true);
@@ -112,6 +117,8 @@ function createRoom(roomName) {
     
     // Send event for server to add existing players and boxes to new player
     socket.emit('clientReady');
+
+    boxColor = getRandomColor();
   }
   
   function update() {
@@ -146,8 +153,18 @@ function createRoom(roomName) {
     };
   }
   
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '0x';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return parseInt(color);
+  }
+
   function placeBox() {
-    const box = boxes.create(player.x, player.y - 32, 'box');
-    socket.emit('boxCreated', { x: box.x, y: box.y });
+    let box = boxes.create(player.x, player.y - 32, 'box');
+    box.setTintFill(boxColor);
+    socket.emit('boxCreated', { x: box.x, y: box.y, boxColor: boxColor });
   }
 }
