@@ -35,17 +35,6 @@ io.on('connection', (socket) => {
       boxes[roomName] = [];
     }
   
-    // socket.on('clientReady', () => {
-    //   console.log('socket on clientReady');
-    //   socket.to(roomName).emit('currentPlayers', players);
-  
-    //   socket.to(roomName).emit('currentBoxes', boxes[roomName]);
-    // });
-
-    // socket.emit('currentPlayers', players);
-    // socket.emit('currentBoxes', boxes[roomName]);
-  
-    // io.emit('newPlayer', players[socket.id]);
     socket.to(roomName).emit('newPlayer', players[socket.id]);
   
     socket.on('playerMovement', (movementData) => {
