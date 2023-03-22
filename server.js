@@ -50,6 +50,7 @@ async function fetchExistingBoxes() {
 }
 
 async function storeBox(room, x, y, color) {
+  console.log(color);
   const { data, error } = await supabase
     .from('boxes')
     .insert([
@@ -91,7 +92,7 @@ io.on('connection', (socket) => {
   
     socket.on('boxCreated', (boxInfo) => {
       boxes[roomName].push(boxInfo);
-      storeBox(roomName, boxInfo.x, boxInfo.y, boxInfo.color);
+      storeBox(roomName, boxInfo.x, boxInfo.y, boxInfo.boxColor);
   
       // Broadcast the new box's position to all connected clients
       socket.to(roomName).emit('boxCreated', boxInfo);
