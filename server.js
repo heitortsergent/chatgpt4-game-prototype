@@ -24,6 +24,33 @@ server.listen(8080, () => {
 const players = {};
 const boxes = {};
 
+async function fetchExistingBoxes() {
+  try {
+    const { data: existingBoxes, error } = await supabase.from('boxes').select('*');
+    if (error) {
+      console.error('Error fetching existing boxes:', error);
+    } else {
+      existingBoxes.forEach((box) => {
+        if (!boxes[box.room]) {
+          boxes[box.room] = [];
+        }
+
+        let newBox = {
+          x: box.x,
+          y: box.y,
+          boxColor: box.color,
+        };
+
+        boxes[box.room].push(newBox);
+      });
+    }
+  } catch (err) {
+    console.error('Error in fetchExistingBoxes:', err);
+  }
+}
+
+fetchExistingBoxes();
+
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
@@ -51,7 +78,7 @@ io.on('connection', (socket) => {
     });
   
     socket.on('boxCreated', (boxInfo) => {
-      boxes[roomName].push({boxInfo});
+      boxes[roomName].push(boxInfo);
   
       // Broadcast the new box's position to all connected clients
       socket.to(roomName).emit('boxCreated', boxInfo);

@@ -67,8 +67,8 @@ function createRoom(roomName) {
   
     socket.on('currentBoxes', (newBoxes) => {
       newBoxes.forEach((box) => {
-        let newBox = boxes.create(box.boxInfo.x, box.boxInfo.y, 'box');
-        newBox.setTintFill(box.boxInfo.boxColor);
+        let newBox = boxes.create(box.x, box.y, 'box');
+        newBox.setTintFill(box.boxColor);
       });
     });
   
