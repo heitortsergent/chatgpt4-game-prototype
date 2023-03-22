@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 
 const express = require('express');
 const app = express();
@@ -50,7 +50,6 @@ async function fetchExistingBoxes() {
 }
 
 async function storeBox(room, x, y, color) {
-  console.log(color);
   const { data, error } = await supabase
     .from('boxes')
     .insert([
@@ -106,7 +105,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('clientReady', () => {
-    console.log('socket on clientReady');
     const roomName = players[socket.id].room;
     const roomPlayers = Object.fromEntries(Object.entries(players).filter(([_, player]) => player.room === roomName));
     socket.emit('currentPlayers', roomPlayers);

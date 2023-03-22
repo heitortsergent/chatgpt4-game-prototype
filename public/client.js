@@ -55,7 +55,6 @@ function createRoom(roomName) {
     cursors = this.input.keyboard.createCursorKeys();
   
     socket.on('currentPlayers', (players) => {
-      console.log('socket on currentPlayers');
       Object.keys(players).forEach((id) => {
           if (id !== socket.id) {
               const otherPlayer = this.add.sprite(players[id].x, players[id].y, 'player');
@@ -73,7 +72,6 @@ function createRoom(roomName) {
     });
   
     socket.on('newPlayer', (playerInfo) => {
-      console.log('socket on newPlayer');
       const otherPlayer = this.add.sprite(playerInfo.x, playerInfo.y, 'player');
       otherPlayer.playerId = playerInfo.playerId;
       otherPlayers.add(otherPlayer);
