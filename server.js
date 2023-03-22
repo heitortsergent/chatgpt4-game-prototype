@@ -49,6 +49,18 @@ async function fetchExistingBoxes() {
   }
 }
 
+async function storeBox(room, x, y, color) {
+  const { data, error } = await supabase
+    .from('boxes')
+    .insert([
+      { room, x, y, color },
+    ]);
+
+  if (error) {
+    console.error('Error saving box to Supabase:', error);
+  }
+}
+
 fetchExistingBoxes();
 
 io.on('connection', (socket) => {
@@ -79,6 +91,7 @@ io.on('connection', (socket) => {
   
     socket.on('boxCreated', (boxInfo) => {
       boxes[roomName].push(boxInfo);
+      storeBox(roomName, boxInfo.x, boxInfo.y, boxInfo.color);
   
       // Broadcast the new box's position to all connected clients
       socket.to(roomName).emit('boxCreated', boxInfo);
